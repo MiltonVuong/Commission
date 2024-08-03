@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Commission Tool</title>
+  <link href="style.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+  <script>
+
+    // Declare variables 
+    let userName;
+    let totalSales = 0;
+    let salesItem;
+    let commissionRate;
+    let commission;
+    let earnings;
+    let sessionEnded = false;
+    let saleAmount;
+
+    // Prompt user for thier name
+    while (true) {
+      userName = prompt("Welcome to the sales report tool. Please enter your name:");
+
+      // User clicked cancel
+      if (userName === null) {
+        alert("Session ended, please refresh the page to start again.");
+        // End session and prevent next prompt for sales item
+        sessionEnded = true;
+        break;
+
+        // User entered a valid name
+      } else if (userName.trim() !== "") {
+        alert(`Hello, ${userName}!`);
+        break;
+
+        // User left the input blank
+      } else {
+        alert("Name cannot be blank. Please enter your name.");
+      }
+    }
+
+    // Check if session was canceled during name prompt
+    if (!sessionEnded) {
+
+      // Prompt user for sales item
+      do {
+        salesItem = prompt("Enter the dollar amount for your sales a single sale at a time. Enter Done when you are finished.");
+
+        // User clicked cancel
+        if (salesItem === null) {
+          alert("Session ended, please refresh the page to start again.");
+          break;
+        }
+
+        // User entered "done"
+        if (salesItem.toLowerCase() === 'done') {
+          break;
+        }
+
+        saleAmount = parseFloat(salesItem);
+
+        // User entered a valid sales item
+        if (!isNaN(saleAmount)) {
+          // Add sales item to total sales
+          totalSales += saleAmount;
+
+        } else {
+          // User entered invalid sales item
+          alert("Please enter a valid number.");
+        }
+      } while (true);
+
+      // Calculate commission rate
+      if (totalSales <= 0) {
+        commissionRate = 0;
+      } else if (totalSales <= 499.99) {
+        commissionRate = 0.05;
+      } else if (totalSales <= 999.99) {
+        commissionRate = 0.10;
+      } else {
+        commissionRate = 0.15;
+      }
+
+      // Calculate commission 
+      commission = totalSales * commissionRate;
+
+      // Calculate earnings 
+      earnings = totalSales + commission;
+
+      // Display total sales and commission in html
+      document.write(`
+        <h1>Hello ${userName}, Here is your Weekly Commission Report.</h1>
+        <p>Your sales total is $${totalSales.toFixed(2)}, so your commission rate is ${(commissionRate * 100).toFixed(2)}%.</p>
+        <p>Your total commission is $${commission.toFixed(2)}.</p>
+        <p>Your total earnings are $${earnings.toFixed(2)}.</p>
+    `);
+    }
+  </script>
+  <script src="script.js"></script>
+</body>
+
+</html>
